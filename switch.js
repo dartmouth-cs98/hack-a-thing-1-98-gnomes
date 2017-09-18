@@ -3,10 +3,10 @@
 //https://stackoverflow.com/questions/4256339/javascript-how-to-loop-through-all-dom-elements-on-a-page
 var all = document.getElementsByTagName("a");
 // var all_p = document.getElementsByTagName("p");
-//
-// var all = all_a.concat(all_p);
 
-for (var i=0; i<all.length/30; i++) {
+// var all = all_a.concat(all_p);
+console.log(all.length+" = all.length");
+for (var i=0; i<all.length/20; i++) {
 
   var text_index = Math.floor(Math.random() * all.length);
 
@@ -32,15 +32,16 @@ for (var i=0; i<all.length/30; i++) {
   var json = JSON.parse(xmlHttp.responseText);
   //https://stackoverflow.com/questions/37542093/get-the-last-element-in-json-array
 
-
+  if (xmlHttp.responseText != "[]") {
   var tag = json[0]["tags"][json[0]["tags"].length -1];
   var blank = "__UNDEFINED__";
-  if (tag == "n") { blank = "__NOUN__";}
-  if (tag == "v") { blank = "__VERB__";}
-  if (tag == "adj") { blank = "__ADJECTIVE__";}
-  if (tag == "adv") { blank = "__ADVERB__";}
+  if (tag == "n") { blank = "_NOUN_";}
+  if (tag == "v") { blank = "_VERB_";}
+  if (tag == "adj") { blank = "_ADJECTIVE_";}
+  if (tag == "adv") { blank = "_ADVERB_";}
 
   words[word_index] = blank;
+  }
 
   var output = "";
   for (var i=0; i < words.length; i++) {
