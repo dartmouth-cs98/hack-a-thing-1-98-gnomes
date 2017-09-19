@@ -1,7 +1,15 @@
 // Write a function that randomly selects words to replace with a blank and its part of speech
 
 //https://stackoverflow.com/questions/4256339/javascript-how-to-loop-through-all-dom-elements-on-a-page
-var all = document.getElementsByTagName("a");
+var list;
+var p_list = Array.prototype.slice.call(document.getElementsByTagName("P"), 0);
+var a_list = Array.prototype.slice.call(document.getElementsByTagName("A"), 0);
+var td_list = Array.prototype.slice.call(document.getElementsByTagName("TD"), 0);
+
+var all = p_list.concat(a_list)
+all = all.concat(td_list)
+
+
 // var all_p = document.getElementsByTagName("p");
 
 // var all = all_a.concat(all_p);
@@ -15,18 +23,18 @@ for (var i=0; i<all.length/20; i++) {
   }
 
   var words = all[text_index].textContent.split(" ");
-  var word_index = Math.floor(Math.random()*words.length);
+  var word_index = Math.floor(Math.random() * words.length);
   while (words[word_index] == '' || words[word_index][0] == ' ' || words[word_index][0] == '') {
-    var word_index = Math.floor(Math.random()*words.length);
+    var word_index = Math.floor(Math.random() * words.length);
   }
-  console.log('The word is '+words[word_index]);
+  console.log('The word is ' + words[word_index]);
 
   //https://stackoverflow.com/questions/247483/http-get-request-in-javascript
-  var request = "https://api.datamuse.com/words?ml="+words[word_index]+"&max=1";
+  var request = "https://api.datamuse.com/words?ml=" + words[word_index] + "&max=1";
   console.log(request);
   var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open( "GET", request, false ); // false for synchronous request
-  xmlHttp.send( null );
+  xmlHttp.open("GET", request, false ); // false for synchronous request
+  xmlHttp.send(null);
   console.log(xmlHttp.responseText);
 
   var json = JSON.parse(xmlHttp.responseText);
@@ -40,8 +48,12 @@ for (var i=0; i<all.length/20; i++) {
   if (tag == "adj") { blank = "_ADJECTIVE_";}
   if (tag == "adv") { blank = "_ADVERB_";}
 
-  words[word_index] = blank;
+  if (blank == "__UNDEFINED__") {
+    continue;
   }
+
+  words[word_index] = blank;
+}
 
   var output = "";
   for (var i=0; i < words.length; i++) {
